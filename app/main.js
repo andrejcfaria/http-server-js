@@ -9,8 +9,8 @@ const server = net.createServer((socket) => {
   socket.on('data', (data) => {
     const [m, path, proto] = data.toString().split('\r\n')[0].split(' ');
 
-    const id = path.split('/')[1];
-
+    const id = path.split('/')[2]
+    console.log("id", id)
     const l = id.length;
 
     socket.write(
