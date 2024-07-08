@@ -10,6 +10,7 @@ const server = net.createServer((socket) => {
   socket.on('data', (data) => {
     const [m, path, proto] = data.toString().split('\r\n')[0].split(' ');
    const id = path.split("/")[1]
+   console.log(id)
    const l = (id.length + 1)
    console.log(l)
   
