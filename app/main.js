@@ -12,7 +12,7 @@ const server = net.createServer((socket) => {
 
     const id = path.split("/")[2]
 
-   const l = (id.length)
+   const l = id.length
 
   
     
