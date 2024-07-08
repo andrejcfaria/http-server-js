@@ -10,7 +10,7 @@ const server = net.createServer((socket) => {
     console.log(data.toString())
     const [m, path, proto] = data.toString().split('\r\n')[0].split(' ');
     const userAgent = data.toString().split('\r\n')[3].split(":")[1]
-    console.log("userAgent : ",userAgent.split(':'))
+    console.log("userAgent : ",userAgent.length)
 
     const id = path.split('/')[2];
 
@@ -19,7 +19,7 @@ const server = net.createServer((socket) => {
     } else if (id) {
       const l = userAgent.length;
       socket.write(
-        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${l}\r\n\r\n${userAgent[1]}`
+        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${l}\r\n\r\n${userAgent}`
       );
     } else {
       socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
