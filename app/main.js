@@ -9,7 +9,8 @@ const server = net.createServer((socket) => {
   socket.on('data', (data) => {
     const [m, path, proto] = data.toString().split('\r\n')[0].split(' ');
 
-    const id = path.split('/')[2]
+    const id = path.split('/')[2];
+    const l = id.length;
 
     if(path === "/") { 
       socket.write("HTTP/1.1 200 OK\r\n\r\n")
