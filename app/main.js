@@ -12,7 +12,10 @@ const server = net.createServer((socket) => {
 
     const [requestLine, ...headerLines] = requestData.split('\r\n');
     const [method, path, protocol] = requestLine.split(' ');
-    console.log(headerLines);
+    console.log(method)
+    console.log(path)
+    console.log(protocol)
+    // console.log(headerLines);
     // const a = headerLines.split(",").map(([k,v]) => (
     //   console.log(k,v)
     // ))
@@ -24,11 +27,15 @@ const server = net.createServer((socket) => {
       }
     });
 
-    const userAgent = h['User-Agent'];
-
+    
     if (method === 'GET' && path === '/user-agent') {
+      const userAgent = h['User-Agent'];
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}
 `);
+    } else if(method === "GET" && path !== '/user-agent') {
+        const body = path.split("/")[2]
+      socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}
+`)
     }
   });
 });
