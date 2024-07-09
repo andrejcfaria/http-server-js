@@ -10,7 +10,7 @@ const server = net.createServer((socket) => {
     console.log(data.toString())
     const [m, path, proto] = data.toString().split('\r\n')[0].split(' ');
     const userAgent = data.toString().split('\r\n')[3].split(":")[1]
-    const contentLength = userAgent.length()
+    const contentLength = userAgent.length
     
 
 
@@ -18,9 +18,6 @@ const server = net.createServer((socket) => {
       console.log(
         `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${contentLength}\r\n\r\n${userAgent}`
       )
-      socket.write(
-        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${contentLength}\r\n\r\n${userAgent}`
-      );
     }
     
 
