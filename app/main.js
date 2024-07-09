@@ -10,7 +10,8 @@ const server = net.createServer((socket) => {
     console.log(data.toString())
     const [m, path, proto] = data.toString().split('\r\n')[0].split(' ');
     const userAgent = data.toString().split('\r\n')[3].split(":")[1]
-    console.log("userAgent : ",userAgent.length)
+    console.log("userAgent : ",userAgent)
+    
 
     const id = path.split('/')[2];
 
