@@ -37,7 +37,7 @@ const server = net.createServer((socket) => {
     } else {
       // Handle the case where User-Agent header is missing
       socket.write(
-        'HTTP/1.1 400 Bad Request\r\nContent-Type: text/plain\r\nContent-Length: 11\r\n\r\nBad Request'
+"HTTP/1.1 200 OK\r\n\r\n"
       );
     }
   });
