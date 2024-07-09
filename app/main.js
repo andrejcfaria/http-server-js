@@ -12,21 +12,34 @@ const server = net.createServer((socket) => {
     const userAgent = data.toString().split('\r\n')[3].split(":")[1]
     console.log(userAgent)
     
-    
-    
 
-    const id = path.split('/')[2];
 
-    if (path === '/') {
-      socket.write('HTTP/1.1 200 OK\r\n\r\n');
-    } else if (id) {
-      const l = userAgent.length;
+    if(path) {
+      console.log(
+        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`
+      )
       socket.write(
-        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${l}\r\n\r\n${userAgent}`
+        `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}`
       );
-    } else {
-      socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
     }
+    
+
+ 
   });
 });
 server.listen(4221, 'localhost');
+
+
+
+  //  const id = path.split('/')[2];
+
+  //   if (path) {
+  //     socket.write('HTTP/1.1 200 OK\r\n\r\n');
+  //   } else if (id) {
+  //     const l = userAgent.length;
+  //     socket.write(
+  //       `HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${l}\r\n\r\n${userAgent}`
+  //     );
+  //   } else {
+  //     socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+  //   }
