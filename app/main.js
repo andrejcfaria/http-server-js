@@ -32,10 +32,12 @@ const server = net.createServer((socket) => {
       const userAgent = h['User-Agent'];
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}
 `);
-    } else if(method === "GET" && path !== '/user-agent') {
+    } else if(method === "GET" && path !== '/user-agent' && path !== '/') {
         const body = path.split("/")[2]
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}
 `)
+    } else {
+      socket.write("HTTP/1.1 404 Not Found\r\n\r\n")
     }
   });
 });
