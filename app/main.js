@@ -32,7 +32,7 @@ const server = net.createServer((socket) => {
       const userAgent = h['User-Agent'];
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${userAgent.length}\r\n\r\n${userAgent}
 `);
-    } else if(method === "GET" && path !== '/user-agent' && path === '/') {
+    } else if(method === "GET" && path !== '/user-agent' && path.includes(/echo/)) {
         const body = path.split("/")[2]
       socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}
 `)
