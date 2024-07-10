@@ -3,13 +3,14 @@
   const server = net.createServer((socket) => {
     socket.on('close', () => {
       socket.end();
-      server.close();
     });
 
+
     socket.on('data', (data) => {
-      console.log(data.length)
+     
       const requestData = data.toString();
       // console.log(requestData);
+      console.log("fodasse ----###")
 
       const [requestLine, ...headerLines] = requestData.split('\r\n');
       const [method, path, protocol] = requestLine.split(' ');
