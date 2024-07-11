@@ -2,9 +2,13 @@
   const fs = require('fs')
   const p = require('path')
 
-  
-  
+
+
   const server = net.createServer((socket) => {
+
+
+
+
     socket.on('close', () => {
       socket.end();
     });
@@ -42,18 +46,22 @@
         socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}
   `);
       } else if (method === 'GET' && path.startsWith("/files/")) {
-        const filePath = p.join('/tmp', path.replace("/files", ""));
-        console.log("filepath---", filePath);
+        const directory = process.argv[3];
+      const filename = path.split("/files/")[1];
 
-        if(fs.existsSync(filePath)) {
-
+        // const filePath = p.join('/tmp', path.replace("/files", ""));
+   
+        
+        if(fs.existsSync(`${directory}/${filename}`)) {
+          
+          console.log("filepath---", `${directory}/${filename}`);
     
-       fs.readFile(filePath, (err, file) => {
+       fs.readFile(`${directory}/${filename}`, (err, file) => {
 
           if(file) {
             socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${file.length}\r\n\r\n${file}`);
           } else {
-            socket.write('HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n');
+            socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
           }
         })
             }
