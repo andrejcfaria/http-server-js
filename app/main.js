@@ -45,6 +45,9 @@
         const filePath = p.join('/tmp', path.replace("/files", ""));
         console.log("filepath---", filePath);
 
+        if(fs.existsSync(filePath)) {
+
+    
        fs.readFile(filePath, (err, file) => {
 
           if(file) {
@@ -53,6 +56,7 @@
             socket.write('HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n');
           }
         })
+            }
       } else {
         socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
       }
