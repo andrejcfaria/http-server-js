@@ -73,6 +73,6 @@ const server = net.createServer((socket) => {
   });
 });
 
-server.listen(4221, "0.0.0.0", () => {
-  console.log("Server listening on port 4221");
+server.listen(4222, "0.0.0.0", () => {
+  console.log("Server listening on port 4222");
 });
