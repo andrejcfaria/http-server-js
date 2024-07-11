@@ -1,4 +1,7 @@
   const net = require('net');
+  const fs = require('fs')
+
+
 
   const server = net.createServer((socket) => {
     socket.on('close', () => {
@@ -9,18 +12,16 @@
     socket.on('data', (data) => {
      
       const requestData = data.toString();
-      // console.log(requestData);
-      console.log("fodasse ----###")
+        
+   
 
       const [requestLine, ...headerLines] = requestData.split('\r\n');
       const [method, path, protocol] = requestLine.split(' ');
-      // console.log(method);
-      // console.log(path);
-      // console.log(protocol);
-      // console.log(headerLines);
-      // const a = headerLines.split(",").map(([k,v]) => (
-      //   console.log(k,v)
-      // ))
+
+       const file = fs.readFileSync(`./app${path}`, (err) => console.log(err));
+    
+
+      console.log(headerLines)
       let h = {};
       headerLines.forEach((line) => {
         const [k, v] = line.split(': ');
@@ -41,8 +42,8 @@
         const body = path.split('/')[2];
         socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}
   `);
-      } else if (method === 'GET' && path === '/') {
-        socket.write('HTTP/1.1 200 OK\r\n\r\n');
+      } else if (method === 'GET' && path && file) {
+        socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${file.length}\r\n\r\n${file}`);
       } else {
         socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
       }
