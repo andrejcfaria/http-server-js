@@ -47,11 +47,10 @@
 
        fs.readFile(filePath, (err, file) => {
 
-          
           if(file) {
             socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${file.length}\r\n\r\n${file}`);
           } else {
-            socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+            socket.write('HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n');
           }
         })
       } else {
