@@ -1,26 +1,25 @@
   const net = require('net');
   const fs = require('fs')
+  const p = require('path')
 
-
-
+  
+  
   const server = net.createServer((socket) => {
     socket.on('close', () => {
       socket.end();
     });
-
-
+    
+    
     socket.on('data', (data) => {
-     
+      
       const requestData = data.toString();
-        
-   
-
+      
+      
+      
       const [requestLine, ...headerLines] = requestData.split('\r\n');
       const [method, path, protocol] = requestLine.split(' ');
-
-       const file = fs.readFileSync(`./app${path}`, (err) => console.log(err));
+      
     
-
       console.log(headerLines)
       let h = {};
       headerLines.forEach((line) => {
@@ -42,8 +41,19 @@
         const body = path.split('/')[2];
         socket.write(`HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: ${body.length}\r\n\r\n${body}
   `);
-      } else if (method === 'GET' && path && file) {
-        socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${file.length}\r\n\r\n${file}`);
+      } else if (method === 'GET' && path.startsWith("/files/")) {
+        const filePath = p.join('/tmp', path.replace("/files", ""));
+        console.log("filepath---", filePath);
+
+       fs.readFile(filePath, (err, file) => {
+
+          
+          if(file) {
+            socket.write(`HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${file.length}\r\n\r\n${file}`);
+          } else {
+            socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
+          }
+        })
       } else {
         socket.write('HTTP/1.1 404 Not Found\r\n\r\n');
       }
