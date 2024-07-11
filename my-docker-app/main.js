@@ -5,19 +5,22 @@ const path = require("path");
 console.log("Logs from your program will appear here!");
 
 const server = net.createServer((socket) => {
+  console.log("New connection established");
+
   socket.on("close", () => {
+    console.log("Connection closed");
     socket.end();
   });
 
   socket.on("data", (data) => {
     const req = data.toString();
-    console.log(req);
+    console.log(`Received request: ${req}`);
     const requestPath = req.split(" ")[1];
 
     if (requestPath === "/") {
       fs.readFile("/home/andrefaria/48ed43726f7cdf54/my-docker-app/app/index.html", (err, content) => {
         if (err) {
-          console.error(err);
+          console.error(`Error reading index.html: ${err}`);
           socket.write("HTTP/1.1 500 Internal Server Error\r\nContent-Length: 0\r\n\r\n");
           socket.end();
           return;
@@ -33,7 +36,7 @@ const server = net.createServer((socket) => {
 
       fs.readFile(filePath, (err, content) => {
         if (err) {
-          console.error(err);
+          console.error(`Error reading file ${filePath}: ${err}`);
           socket.write("HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\n\r\n");
         } else {
           const res = `HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: ${content.length}\r\n\r\n`;
@@ -66,7 +69,7 @@ const server = net.createServer((socket) => {
   });
 
   socket.on("error", (err) => {
-    console.error("Socket error:", err);
+    console.error(`Socket error: ${err}`);
   });
 });
 
