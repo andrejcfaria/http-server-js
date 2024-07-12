@@ -17,7 +17,7 @@ const server = net.createServer((socket) => {
       const req = data.toString().split("\r\n");
       const body = req[req.length - 1];
       fs.writeFileSync(filename, body);
-      socket.write(`HTTP/1.1 201 CREATED\r\n\r\n`);
+      socket.write(`HTTP/1.1 201 Created\r\n\r\n`);
     }
     else if (path === '/') socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // else if (path === "/user-agent") {
