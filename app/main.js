@@ -8,8 +8,17 @@ const server = net.createServer((socket) => {
   });
   socket.on("data", (data) => {
     const req = data.toString();
-    console.log(req);
     const path = req.split(" ")[1];
+    const method = req.split(" ")[0];
+
+    if(path.includes('/files/') &&  method == 'POST') {
+      const body = req.split("\r\n\r\n");
+      console.log("body...", body)
+      const res = "HTTP/1.1 201 Created\r\n\r\n"
+      socket.write(res)
+      return
+
+    }
     if (path === "/") socket.write("HTTP/1.1 200 OK\r\n\r\n");
     // else if (path === "/user-agent") {
     else if (path.startsWith("/files/")) {
