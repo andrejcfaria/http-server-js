@@ -16,7 +16,7 @@ const server = net.createServer((socket) => {
  const filename = process.argv[3] + "/" + path.substring(7);
       const req = data.toString().split("\r\n");
       const body = req[req.length - 1];
-      fs.writeFileSync(filename, body);
+      // fs.writeFileSync(filename, body);
       socket.write(`HTTP/1.1 201 Created\r\n\r\n`);
     }
     else if (path === '/') socket.write('HTTP/1.1 200 OK\r\n\r\n');
