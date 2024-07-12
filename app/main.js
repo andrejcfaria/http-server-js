@@ -13,30 +13,11 @@ const server = net.createServer((socket) => {
     const method = req.split(' ')[0];
 
     if (path.includes('/files/') && method == 'POST') {
-      const body = req.split('\r\n\r\n')[1];
-      console.log(body);
-
-      const dir = '/tmp/files'; // Use /tmp as the temporary directory
-      const filePath = pathModule.join(dir, 'filer.txt');
-
-      if (!fs.existsSync(dir)) {
-        fs.mkdirSync(dir, {recursive: true});
-      }
-
-      // Write the body content to the file
-      fs.writeFile(filePath, body, (err) => {
-        if (err) {
-          console.log(err);
-        } else {
-            const res = 'HTTP/1.1 201 Created\r\n\r\n';
-      socket.write(res);
-          console.log('File written successfully');
-        }
-      });
-
-      console.log(path);
-    
-      // return
+ const filename = process.argv[3] + "/" + path.substring(7);
+      const req = data.toString().split("\r\n");
+      const body = req[req.length - 1];
+      fs.writeFileSync(filename, body);
+      socket.write(`HTTP/1.1 201 CREATED\r\n\r\n`);
     }
     else if (path === '/') socket.write('HTTP/1.1 200 OK\r\n\r\n');
     // else if (path === "/user-agent") {
